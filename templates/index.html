@@ -1,0 +1,519 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#060A0F;--bg2:#0D1117;--bg3:#151B24;--bg4:#1C2433;
+  --green:#22C55E;--green2:#16A34A;--green-dim:rgba(34,197,94,0.12);
+  --blue:#3B82F6;--amber:#F59E0B;--red:#EF4444;--purple:#A78BFA;
+  --border:rgba(255,255,255,0.06);--border2:rgba(255,255,255,0.1);
+  --text:#E2E8F0;--muted:#64748B;--muted2:#94A3B8;
+}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* NAV */
+.nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 32px;
+  border-bottom:1px solid var(--border);
+  background:rgba(6,10,15,0.95);
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(16px);
+}
+.nav-brand{display:flex;align-items:center;gap:12px;}
+.nav-icon{
+  width:36px;height:36px;background:var(--green);border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:17px;box-shadow:0 0 18px rgba(34,197,94,0.4);
+  flex-shrink:0;
+}
+.nav-title{font-size:16px;font-weight:700;letter-spacing:-0.3px;}
+.nav-subtitle{font-size:10px;color:var(--muted);font-family:'Space Mono',monospace;letter-spacing:1.5px;margin-top:1px;}
+.nav-tags{display:flex;gap:8px;}
+.tag{
+  padding:4px 10px;border-radius:6px;font-size:11px;font-family:'Space Mono',monospace;
+  letter-spacing:0.3px;border:1px solid;
+}
+.tag-green{background:var(--green-dim);color:var(--green);border-color:rgba(34,197,94,0.25);}
+.tag-blue{background:rgba(59,130,246,0.1);color:#60A5FA;border-color:rgba(59,130,246,0.25);}
+.tag-amber{background:rgba(245,158,11,0.1);color:#FCD34D;border-color:rgba(245,158,11,0.25);}
+
+/* MAIN LAYOUT */
+.wrap{max-width:900px;margin:0 auto;padding:28px 24px;}
+
+/* HERO HEADER */
+.hero{
+  border:1px solid var(--border);border-radius:16px;
+  background:var(--bg2);
+  padding:28px 32px;margin-bottom:20px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:280px;height:280px;border-radius:50%;
+  background:radial-gradient(circle,rgba(34,197,94,0.07) 0%,transparent 70%);
+  pointer-events:none;
+}
+.hero-row{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;}
+.hero-left{}
+.hero-eyebrow{font-size:10px;font-family:'Space Mono',monospace;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:8px;}
+.hero-name{font-size:22px;font-weight:800;letter-spacing:-0.5px;line-height:1.2;margin-bottom:4px;}
+.hero-meta{font-size:13px;color:var(--muted2);margin-bottom:16px;}
+.hero-abstract{font-size:13.5px;line-height:1.7;color:var(--muted2);max-width:520px;}
+.hero-right{display:flex;flex-direction:column;gap:10px;flex-shrink:0;min-width:160px;}
+.info-pill{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 14px;border-radius:10px;
+  background:var(--bg3);border:1px solid var(--border);
+  font-size:12px;
+}
+.info-pill i{font-size:15px;color:var(--muted);}
+.info-pill-val{font-weight:600;color:var(--text);}
+.info-pill-key{color:var(--muted);font-size:10px;margin-top:1px;font-family:'Space Mono',monospace;}
+
+/* METRIC CARDS */
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px;}
+.mcard{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:18px 16px;position:relative;overflow:hidden;
+  transition:border-color 0.2s,transform 0.2s;
+  cursor:default;
+}
+.mcard:hover{border-color:var(--border2);transform:translateY(-2px);}
+.mcard::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--c,var(--green));opacity:0.7;
+}
+.mcard-label{font-size:10px;font-family:'Space Mono',monospace;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase;margin-bottom:10px;}
+.mcard-val{font-size:28px;font-weight:800;color:var(--c,var(--green));font-family:'Space Mono',monospace;line-height:1;}
+.mcard-sub{font-size:11px;color:var(--muted);margin-top:6px;}
+.mcard-trend{
+  position:absolute;top:14px;right:14px;
+  font-size:11px;padding:3px 8px;border-radius:5px;
+  font-family:'Space Mono',monospace;
+}
+.trend-up{background:rgba(34,197,94,0.1);color:var(--green);}
+.trend-down{background:rgba(245,158,11,0.1);color:#FCD34D;}
+
+/* PROGRESS BARS */
+.progress-section{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:20px 24px;margin-bottom:20px;
+}
+.section-title{
+  font-size:11px;font-family:'Space Mono',monospace;letter-spacing:2px;
+  color:var(--muted);text-transform:uppercase;margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.pbar-row{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.pbar-row:last-child{margin-bottom:0;}
+.pbar-name{font-size:13px;font-weight:500;width:110px;flex-shrink:0;}
+.pbar-track{flex:1;height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;}
+.pbar-fill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(0.16,1,0.3,1);}
+.pbar-val{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;width:46px;text-align:right;flex-shrink:0;}
+.pbar-change{font-size:11px;color:var(--green);font-family:'Space Mono',monospace;width:50px;text-align:right;flex-shrink:0;}
+
+/* EPOCHS TABLE */
+.table-section{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:20px 24px;margin-bottom:20px;overflow:hidden;
+}
+table{width:100%;border-collapse:collapse;}
+th{
+  font-size:10px;font-family:'Space Mono',monospace;letter-spacing:1.5px;
+  color:var(--muted);text-transform:uppercase;text-align:left;
+  padding:0 12px 12px;border-bottom:1px solid var(--border);
+}
+td{
+  padding:12px;font-size:13px;border-bottom:1px solid rgba(255,255,255,0.03);
+}
+tr:last-child td{border-bottom:none;}
+.td-mono{font-family:'Space Mono',monospace;font-weight:700;}
+.td-pill{
+  display:inline-flex;padding:3px 9px;border-radius:5px;
+  font-family:'Space Mono',monospace;font-size:12px;font-weight:700;
+}
+.td-green{background:var(--green-dim);color:var(--green);}
+.td-amber{background:rgba(245,158,11,0.1);color:#FCD34D;}
+.td-blue{background:rgba(59,130,246,0.1);color:#93C5FD;}
+tr:hover td{background:rgba(255,255,255,0.015);}
+.best-row td:first-child{
+  border-left:2px solid var(--green);
+  padding-left:10px;
+}
+
+/* LOSS CHART */
+.chart-section{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:20px 24px;margin-bottom:20px;
+}
+.chart-area{position:relative;height:200px;margin-top:16px;}
+svg.linechart{width:100%;height:100%;overflow:visible;}
+.chart-legend{display:flex;gap:16px;margin-top:12px;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted2);}
+.legend-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+/* ARCHITECTURE CARDS */
+.arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.arch-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:18px 20px;
+}
+.arch-card-title{font-size:13px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+.arch-card-title i{font-size:16px;color:var(--muted);}
+.kv-list{}
+.kv-row{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.03);
+  font-size:12px;
+}
+.kv-row:last-child{border-bottom:none;}
+.kv-key{color:var(--muted);font-family:'Space Mono',monospace;}
+.kv-val{font-weight:600;}
+.kv-val.green{color:var(--green);}
+.kv-val.blue{color:#93C5FD;}
+.kv-val.amber{color:#FCD34D;}
+
+/* STRENGTHS / WEAKNESSES */
+.sw-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.sw-card{
+  background:var(--bg2);border:1px solid var(--border);border-radius:14px;
+  padding:18px 20px;
+}
+.sw-title{font-size:11px;font-family:'Space Mono',monospace;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.sw-item{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.03);
+  font-size:12.5px;line-height:1.5;
+}
+.sw-item:last-child{border-bottom:none;}
+.sw-dot{width:5px;height:5px;border-radius:50%;margin-top:6px;flex-shrink:0;}
+
+/* FOOTER */
+.footer{
+  border:1px solid var(--border);border-radius:14px;
+  background:var(--bg2);padding:16px 24px;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:12px;color:var(--muted);
+}
+.footer a{color:var(--green);text-decoration:none;}
+</style>
+
+<div style="background:var(--bg);min-height:100vh;">
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-icon">♻</div>
+    <div>
+      <div class="nav-title">AtıkVision — Proje Raporu</div>
+      <div class="nav-subtitle">YOLOv8 · FÜ YAZILIM MÜH.</div>
+    </div>
+  </div>
+  <div class="nav-tags">
+    <span class="tag tag-green">30 EPOCH</span>
+    <span class="tag tag-blue">mAP@50: 53.3%</span>
+    <span class="tag tag-amber">CPU</span>
+  </div>
+</nav>
+
+<div class="wrap">
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-row">
+    <div class="hero-left" style="flex: 1; max-width: 400px;">
+      <div class="hero-eyebrow">Bitirme Projesi · 2025</div>
+      <div class="hero-name">YOLOv8 Tabanlı Gerçek Zamanlı<br>Atık Tespit Sistemi</div>
+      <div class="hero-meta">Mahmut BAĞLAMA · 225541033</div>
+      <div class="hero-abstract">
+        Gerçek zamanlı kamera görüntüsü üzerinde derin öğrenme ile atık tespiti. 
+      </div>
+    </div>
+
+    <div class="hero-cam" style="flex: 2; margin: 0 20px;">
+       <img src="{{ url_for('video_feed') }}" style="width: 100%; border-radius: 12px; border: 1px solid var(--border2); background: #000;">
+    </div>
+
+    <div class="hero-right">
+      <div class="info-pill">
+        <i class="ti ti-cpu"></i>
+        <div>
+          <div class="info-pill-val">CPU Only</div>
+          <div class="info-pill-key">DONANIM</div>
+        </div>
+      </div>
+      </div>
+  </div>
+</div>
+      <div class="info-pill">
+        <i class="ti ti-database" aria-hidden="true"></i>
+        <div>
+          <div class="info-pill-val">5,559 görsel</div>
+          <div class="info-pill-key">VERİ SETİ</div>
+        </div>
+      </div>
+      <div class="info-pill">
+        <i class="ti ti-refresh" aria-hidden="true"></i>
+        <div>
+          <div class="info-pill-val">30 epoch</div>
+          <div class="info-pill-key">EĞİTİM (resume)</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- METRICS -->
+<div class="metrics">
+  <div class="mcard" style="--c:#22C55E">
+    <div class="mcard-label">mAP@50</div>
+    <div class="mcard-val" id="v-map50">0%</div>
+    <div class="mcard-sub">ana başarı metriği</div>
+    <div class="mcard-trend trend-up">↑ +11.3</div>
+  </div>
+  <div class="mcard" style="--c:#3B82F6">
+    <div class="mcard-label">Precision</div>
+    <div class="mcard-val" id="v-prec">0%</div>
+    <div class="mcard-sub">doğru alarm oranı</div>
+    <div class="mcard-trend trend-up">↑ +10.9</div>
+  </div>
+  <div class="mcard" style="--c:#A78BFA">
+    <div class="mcard-label">Recall</div>
+    <div class="mcard-val" id="v-rec">0%</div>
+    <div class="mcard-sub">tespit oranı</div>
+    <div class="mcard-trend trend-up">↑ +7.3</div>
+  </div>
+  <div class="mcard" style="--c:#F59E0B">
+    <div class="mcard-label">mAP@50-95</div>
+    <div class="mcard-val" id="v-map95">0%</div>
+    <div class="mcard-sub">katı ölçüt</div>
+    <div class="mcard-trend trend-up">↑ +8.1</div>
+  </div>
+</div>
+
+<!-- PROGRESS BARS -->
+<div class="progress-section">
+  <div class="section-title">Performans Metrikleri — 30 Epoch</div>
+  <div class="pbar-row">
+    <span class="pbar-name">Precision</span>
+    <div class="pbar-track"><div class="pbar-fill" id="pb-prec" style="width:0%;background:#3B82F6;"></div></div>
+    <span class="pbar-val" style="color:#60A5FA;">65.9%</span>
+    <span class="pbar-change">+10.9%</span>
+  </div>
+  <div class="pbar-row">
+    <span class="pbar-name">Recall</span>
+    <div class="pbar-track"><div class="pbar-fill" id="pb-rec" style="width:0%;background:#A78BFA;"></div></div>
+    <span class="pbar-val" style="color:#A78BFA;">47.3%</span>
+    <span class="pbar-change">+7.3%</span>
+  </div>
+  <div class="pbar-row">
+    <span class="pbar-name">mAP@50</span>
+    <div class="pbar-track"><div class="pbar-fill" id="pb-map50" style="width:0%;background:#22C55E;"></div></div>
+    <span class="pbar-val" style="color:#22C55E;">53.3%</span>
+    <span class="pbar-change">+11.3%</span>
+  </div>
+  <div class="pbar-row">
+    <span class="pbar-name">mAP@50-95</span>
+    <div class="pbar-track"><div class="pbar-fill" id="pb-map95" style="width:0%;background:#F59E0B;"></div></div>
+    <span class="pbar-val" style="color:#FCD34D;">28.1%</span>
+    <span class="pbar-change">+8.1%</span>
+  </div>
+</div>
+
+<!-- EPOCH TABLE -->
+<div class="table-section">
+  <div class="section-title">Epoch Karşılaştırması</div>
+  <table>
+    <thead>
+      <tr>
+        <th>Konfigürasyon</th>
+        <th>Precision</th>
+        <th>Recall</th>
+        <th>mAP@50</th>
+        <th>mAP@50-95</th>
+        <th>Durum</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="td-mono" style="color:var(--muted2);">20 Epoch</span><br><span style="font-size:11px;color:var(--muted);">İlk eğitim</span></td>
+        <td><span class="td-pill td-amber">~55%</span></td>
+        <td><span class="td-pill td-amber">~40%</span></td>
+        <td><span class="td-pill td-amber">~42%</span></td>
+        <td><span class="td-pill td-amber">~20%</span></td>
+        <td><span style="font-size:12px;color:var(--muted);">Plato yok</span></td>
+      </tr>
+      <tr class="best-row">
+        <td><span class="td-mono" style="color:var(--green);">30 Epoch</span><br><span style="font-size:11px;color:var(--muted);">Resume ile</span></td>
+        <td><span class="td-pill td-green">65.9%</span></td>
+        <td><span class="td-pill td-blue">47.3%</span></td>
+        <td><span class="td-pill td-green">53.3%</span></td>
+        <td><span class="td-pill td-blue">28.1%</span></td>
+        <td><span style="font-size:12px;color:var(--green);">✓ En iyi</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- LOSS CHART (SVG) -->
+<div class="chart-section">
+  <div class="section-title">Eğitim Kayıp Eğrileri (train/val box_loss — simüle)</div>
+  <div class="chart-area">
+    <svg class="linechart" viewBox="0 0 820 180" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="gTrain" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#22C55E" stop-opacity="0.18"/>
+          <stop offset="100%" stop-color="#22C55E" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="gVal" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#3B82F6" stop-opacity="0.12"/>
+          <stop offset="100%" stop-color="#3B82F6" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <!-- grid lines -->
+      <line x1="0" y1="30" x2="820" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="0" y1="75" x2="820" y2="75" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="0" y1="120" x2="820" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <line x1="0" y1="165" x2="820" y2="165" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+      <!-- train fill -->
+      <path id="trainFill" d="" fill="url(#gTrain)"/>
+      <!-- val fill -->
+      <path id="valFill" d="" fill="url(#gVal)"/>
+      <!-- train line -->
+      <path id="trainLine" d="" fill="none" stroke="#22C55E" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- val line -->
+      <path id="valLine" d="" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linejoin="round" stroke-dasharray="5,3"/>
+      <!-- x axis labels -->
+      <text x="27" y="178" fill="#4B5563" font-size="10" font-family="Space Mono">0</text>
+      <text x="100" y="178" fill="#4B5563" font-size="10" font-family="Space Mono">5</text>
+      <text x="200" y="178" fill="#4B5563" font-size="10" font-family="Space Mono">10</text>
+      <text x="350" y="178" fill="#4B5563" font-size="10" font-family="Space Mono">15</text>
+      <text x="510" y="178" fill="#4B5563" font-size="10" font-family="Space Mono">20</text>
+      <text x="640" y="178" fill="#4B5563" font-size="10" font-family="Space Mono">25</text>
+      <text x="764" y="178" fill="#4B5563" font-size="10" font-family="Space Mono">30</text>
+    </svg>
+  </div>
+  <div class="chart-legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#22C55E;"></div> train box_loss</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;"></div> val box_loss</div>
+  </div>
+</div>
+
+<!-- ARCH + HYPERPARAMS -->
+<div class="arch-grid">
+  <div class="arch-card">
+    <div class="arch-card-title"><i class="ti ti-settings" aria-hidden="true"></i> Eğitim Hiperparametreleri</div>
+    <div class="kv-list">
+      <div class="kv-row"><span class="kv-key">mimari</span><span class="kv-val green">YOLOv8n</span></div>
+      <div class="kv-row"><span class="kv-key">epoch</span><span class="kv-val green">30 (resume)</span></div>
+      <div class="kv-row"><span class="kv-key">imgsz</span><span class="kv-val">320 × 320</span></div>
+      <div class="kv-row"><span class="kv-key">batch</span><span class="kv-val">2</span></div>
+      <div class="kv-row"><span class="kv-key">device</span><span class="kv-val amber">CPU</span></div>
+      <div class="kv-row"><span class="kv-key">conf eşiği</span><span class="kv-val blue">0.25</span></div>
+      <div class="kv-row"><span class="kv-key">workers</span><span class="kv-val">0</span></div>
+    </div>
+  </div>
+  <div class="arch-card">
+    <div class="arch-card-title"><i class="ti ti-database" aria-hidden="true"></i> Veri Seti — Garbage Detection</div>
+    <div class="kv-list">
+      <div class="kv-row"><span class="kv-key">kaynak</span><span class="kv-val blue">Roboflow</span></div>
+      <div class="kv-row"><span class="kv-key">lisans</span><span class="kv-val">CC BY 4.0</span></div>
+      <div class="kv-row"><span class="kv-key">train</span><span class="kv-val green">4730 (%86)</span></div>
+      <div class="kv-row"><span class="kv-key">validation</span><span class="kv-val">629 (%11)</span></div>
+      <div class="kv-row"><span class="kv-key">test</span><span class="kv-val">~200 (%3)</span></div>
+      <div class="kv-row"><span class="kv-key">sınıf</span><span class="kv-val amber">1 (garbage)</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- STRONG / WEAK -->
+<div class="sw-grid">
+  <div class="sw-card">
+    <div class="sw-title" style="color:var(--green);"><i class="ti ti-circle-check" aria-hidden="true"></i> Güçlü Yönler</div>
+    <div class="sw-item"><div class="sw-dot" style="background:var(--green);margin-top:7px;"></div>GPU gerektirmeksizin CPU'da gerçek zamanlı çalışma</div>
+    <div class="sw-item"><div class="sw-dot" style="background:var(--green);margin-top:7px;"></div>Resume mekanizması ile kesintisiz eğitim altyapısı</div>
+    <div class="sw-item"><div class="sw-dot" style="background:var(--green);margin-top:7px;"></div>FPS göstergesi ve sınıf paneli ile zengin HUD arayüzü</div>
+    <div class="sw-item"><div class="sw-dot" style="background:var(--green);margin-top:7px;"></div>CC BY 4.0 lisanslı açık veri seti, yeniden üretilebilir</div>
+  </div>
+  <div class="sw-card">
+    <div class="sw-title" style="color:#F59E0B;"><i class="ti ti-alert-triangle" aria-hidden="true"></i> İyileştirme Alanları</div>
+    <div class="sw-item"><div class="sw-dot" style="background:#F59E0B;margin-top:7px;"></div>Tek sınıf yapısı; plastik/cam/metal ayrımı yapılamıyor</div>
+    <div class="sw-item"><div class="sw-dot" style="background:#F59E0B;margin-top:7px;"></div>imgsz=320 küçük ve uzak nesnelerin tespitini zorlaştırıyor</div>
+    <div class="sw-item"><div class="sw-dot" style="background:#F59E0B;margin-top:7px;"></div>batch=2 gradient güncellemelerinde gürültüye neden oluyor</div>
+    <div class="sw-item"><div class="sw-dot" style="background:#F59E0B;margin-top:7px;"></div>GPU + 100+ epoch ile %65-70 mAP@50 hedeflenebilir</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <span>Mahmut BAĞLAMA · 225541033 · Fırat Üniversitesi · 2025</span>
+  <a href="https://universe.roboflow.com/mahmut-baglama/garbage-detection-pbcjq-f7w4d/dataset/1" target="_blank">
+    Roboflow Dataset ↗
+  </a>
+</div>
+
+</div>
+</div>
+
+<script>
+// Counter animation
+function animateCounter(id, target, suffix, duration) {
+  const el = document.getElementById(id);
+  let start = 0;
+  const step = target / (duration / 16);
+  const timer = setInterval(() => {
+    start = Math.min(start + step, target);
+    el.textContent = Math.round(start * 10) / 10 + suffix;
+    if (start >= target) clearInterval(timer);
+  }, 16);
+}
+
+// Progress bars
+function animateBar(id, target) {
+  const el = document.getElementById(id);
+  setTimeout(() => { el.style.width = target + '%'; }, 100);
+}
+
+// SVG Line chart
+function buildChart() {
+  const W = 820, H = 160, PAD = 20;
+  const epochs = 30;
+  const trainPts = [];
+  const valPts = [];
+  for (let i = 0; i <= epochs; i++) {
+    const t = i / epochs;
+    const trainY = 1.4 - 0.32 * Math.pow(t, 0.55) - 0.04 * Math.sin(i * 1.8) * (1 - t * 0.6);
+    const valY = 1.65 - 0.08 * Math.pow(t, 0.4) - 0.05 * Math.sin(i * 2.1 + 0.5) * (1 - t * 0.3);
+    trainPts.push(trainY);
+    valPts.push(valY);
+  }
+  const allVals = [...trainPts, ...valPts];
+  const minV = Math.min(...allVals) - 0.02;
+  const maxV = Math.max(...allVals) + 0.02;
+  const scaleX = x => PAD + x / epochs * (W - PAD * 2);
+  const scaleY = y => PAD + (1 - (y - minV) / (maxV - minV)) * (H - PAD * 2);
+  const toPath = pts => pts.map((v, i) => `${i===0?'M':'L'}${scaleX(i)},${scaleY(v)}`).join(' ');
+  const toFill = pts => toPath(pts) + ` L${scaleX(epochs)},${H} L${scaleX(0)},${H} Z`;
+  document.getElementById('trainLine').setAttribute('d', toPath(trainPts));
+  document.getElementById('valLine').setAttribute('d', toPath(valPts));
+  document.getElementById('trainFill').setAttribute('d', toFill(trainPts));
+  document.getElementById('valFill').setAttribute('d', toFill(valPts));
+}
+
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    animateCounter('v-map50', 53.3, '%', 1200);
+    animateCounter('v-prec', 65.9, '%', 1200);
+    animateCounter('v-rec', 47.3, '%', 1200);
+    animateCounter('v-map95', 28.1, '%', 1200);
+    animateBar('pb-prec', 65.9);
+    animateBar('pb-rec', 47.3);
+    animateBar('pb-map50', 53.3);
+    animateBar('pb-map95', 28.1);
+    buildChart();
+  }, 200);
+});
+</script>
